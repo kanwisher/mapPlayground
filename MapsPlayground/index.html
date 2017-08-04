@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #liveButton {
+            cursor: pointer;
+            font-family: arial;
+            float: right;
+            margin-right: 100px;
+        }
+
+        #liveButton>* {
+            display: inline-block;
+        }
+
+        #liveButton:hover>#eye {
+            background: red;
+        }
+
+        #eye {
+            background: gray;
+            height: 12px;
+            width: 12px;
+            border-radius: 100%;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>VTrack Dashboard</h1>
+    <div id="liveButton">
+        <div id="eye"></div>
+        <div id="liveText">Live View</div>
+    </div>
+
+    <script>
+        var liveButton = document.getElementById("liveButton");
+        liveButton.addEventListener("click", function () {
+            window.open("file:///C:/Users/david.kanwisher/Desktop/MapsPlayground/map.html", 'window', 'menubar=no,resizable=yes,scrollbars=no');
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+   
+    <script>
+        var names = ["gumby", "bear", "turtle", "spongebob", "alex", "table", "cup", "duck", "fidget spinner", "joke", "food"];
+        var trucks = [];
+        var charlotteLocation = { lat: 35.2270869, lng: -80.84312669999997 };
+
+        function Truck(name, color, location) { //constructor
+            this.name = name;
+            this.color = color;
+            this.location = location;
+        }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[randNumber(0,16)];
+            }
+            return color;
+        }
+
+        function createRandomTrucks(howMany) {
+            for (var i = 0; i < howMany; i++) {
+                var color = getRandomColor();
+                var name = names[randNumber(0, names.length)];
+                var location = randomLocation(charlotteLocation);
+                var newTruck = new Truck(name, color, location);
+                trucks.push(newTruck);
+            }
+        }
+
+        function randNumber(lowest, highest, noRound) {
+            if(!noRound){
+                return Math.floor(Math.random() * ((highest - lowest)) + lowest);
+            }
+
+            return Math.random() * ((highest - lowest)) + lowest;
+        }
+
+
+        function randomLocation(startPosition) {
+            var randomPosition = {
+                lat: startPosition.lat - randNumber(-0.3, 0.3, "no"),
+                lng: startPosition.lng - randNumber(-0.3, 0.3, "no")
+            }
+            return randomPosition;
+        }
+
+        function createIcon(color, rotation){
+            var icon = {        
+                path: "M 160 540 L 380 540 L 380 200 L 160 200 L 180 120 L 200 60 L 340 60 L 360 120 L 380 200 L 160 200 L 160 540 L 160 200 L 220 140 L 220 140 L 320 140 L 380 200 L 380 200 L 160 200 L 160 540 Z",
+                fillColor: color,
+                fillOpacity: 1,
+                anchor: new google.maps.Point(0,0),
+                scale: .08,
+                strokeWeight: 2,
+                strokeColor: "#FF0080",
+                rotation: rotation
+            }
+
+            return icon;
+        }
+
+        
+        function initMap() {
+            createRandomTrucks(5);
+            
+            
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: charlotteLocation
+            });
+
+            trucks.forEach(function(truck){
+                setTimeout(function(){
+                    var marker = new google.maps.Marker({
+                    position: truck.location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                    title: truck.name,
+                    icon: createIcon(truck.color, randNumber(0, 360))
+                })
+                }, randNumber(0, 2500));
+            
+            });
+
+
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCzzWmtUkQdPsOPyo7oiOB1RjgdrYl4Y&callback=initMap"></script>
+</body>
+
+</html>
